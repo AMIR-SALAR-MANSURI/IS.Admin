@@ -1,0 +1,74 @@
+.ant-layout-header {
+  @apply px-3 bg-white border-b !important;
+}
+
+.ant-input-outlined {
+  @apply bg-gray-50 border-gray-300 text-gray-900;
+}
+
+.ant-menu {
+  @apply border-l-0 !important;
+}
+
+.ant-collapse-content-box {
+  @apply pb-1 !important;
+}
+
+.ant-form-item-label {
+  @apply pb-[5px] !important;
+}
+
+.ant-pagination {
+  @apply mx-3 !important;
+}
+
+.ant-pagination .ant-pagination-item-active {
+  background-color: theme("colors.blue.700") !important;
+  border-color: theme("colors.gray.200") !important;
+}
+
+.ant-pagination .ant-pagination-item-active a {
+  color: theme("colors.white") !important;
+}
+
+.ant-pagination .ant-pagination-next .ant-pagination-item-link {
+  background-color: theme("backgroundColor.gray.100") !important;
+}
+
+.ant-pagination .ant-pagination-prev .ant-pagination-item-link {
+  background-color: theme("backgroundColor.gray.100") !important;
+}
+
+.ant-pagination-item {
+  color: theme("colors.blue.700") !important;
+  background-color: theme("backgroundColor.gray.100") !important;
+}
+
+.ant-table-title {
+  @apply border-none !important;
+}
+
+.ant-modal-mask {
+  background-color: rgb(255 255 255 / 0%) !important;
+  backdrop-filter: blur(2px);
+}
+
+.ant-btn {
+  @apply flex items-center !important;
+}
+
+.ant-modal-footer {
+  @apply flex items-center justify-end !important;
+}
+
+.ant-popconfirm-buttons {
+  @apply flex justify-end !important
+}
+
+.ant-form-item {
+  @apply mb-0 !important;
+}
+
+input {
+  font-family: var(--font-family) !important;
+}
