@@ -9,6 +9,9 @@
   --font-family: IRANSansfanum;
 }
 
+.tsqd-parent-container {
+  direction: ltr;
+}
 /* 
 body {
   color: rgb(var(--foreground-rgb));

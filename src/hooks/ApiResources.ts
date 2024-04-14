@@ -9,6 +9,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import usePagination from "./usePagination";
 import { useState } from "react";
 import apiData from "@/constants/api-resource";
+import customFetcher from "@/service/custome-fetcher";
+import { TPage, TPaginateResponse } from "@/types/responseType";
+import { TApiResourceGetAllList } from "@/types/ApiResource";
 
 const apiService = new ApiResources();
 
@@ -17,17 +20,17 @@ const useGetAll = () => {
 
   const pagination = usePagination();
 
-  const pageData = {
-    page: pagination.current,
-    pageIndex: pagination.pageSize,
+  const pageData: TPage = {
+    pageCount: pagination.pageSize,
+    pageIndex: pagination.current,
   };
 
   const query = useQuery({
     queryKey: [apiData.getAll.url, { ...filter }, pageData],
-    queryFn: () =>
-      apiService.getAll({
-        pageCount: pagination.pageSize,
-        pageIndex: pagination.current,
+    queryFn: (): Promise<TPaginateResponse<TApiResourceGetAllList[]>> =>
+      customFetcher({
+        url: apiData.getAll.method,
+        data: { ...filter, ...pageData },
         ...filter,
       }),
     select: (data) => data?.value,

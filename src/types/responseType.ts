@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 
 export interface TPage {
   pageIndex: number;
