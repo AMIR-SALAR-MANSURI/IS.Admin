@@ -2,6 +2,7 @@ const ms = {
   names: {
     identityResource: "منابع شناسایی",
     apiResources: "منابع سرویس",
+    apiScopes: "api scop",
     Clients: "Clients",
   },
   deleteConfirm: "آیا از حذف value مطمئن هستید؟",

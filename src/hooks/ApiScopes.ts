@@ -1,14 +1,19 @@
-import apiData from "@/constants/identity-resource";
-import { TCreate, TGet, TGetAll, TUpdate } from "@/lib/IdentityResource";
+import apiData from "@/constants/api-scopes";
 import customFetcher from "@/service/custome-fetcher";
-import { TGetAllResponse, TGetResponse } from "@/types/IdentityResource";
 import { TPage, TPaginateResponse, TResponse } from "@/types/responseType";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import usePagination from "./usePagination";
+import {
+  TApiScopesCreateType,
+  TApiScopesGet,
+  TApiScopesGetAllList,
+  TApiScopesGetAllType,
+  TApiScopesUpdateType,
+} from "@/types/ApiScopes";
 
 const useGetAll = () => {
-  const [filter, setFilter] = useState<TGetAll>({ name: "" });
+  const [filter, setFilter] = useState<TApiScopesGetAllType>({ name: "" });
 
   const pagination = usePagination();
 
@@ -20,7 +25,7 @@ const useGetAll = () => {
   const query = useQuery({
     queryKey: [apiData.getAll.url, { ...filter }, pageData],
     queryFn: (): Promise<
-      TPaginateResponse<{ identityResources: TGetAllResponse[] }>
+      TPaginateResponse<{ scopes: TApiScopesGetAllList[] }>
     > =>
       customFetcher({
         url: apiData.getAll.url,
@@ -31,13 +36,10 @@ const useGetAll = () => {
   });
 
   useEffect(() => {
-    if (
-      Array.isArray(query.data?.identityResources) &&
-      query.data?.identityResources.length == 0
-    ) {
+    if (Array.isArray(query.data?.scopes) && query.data?.scopes.length == 0) {
       pagination.onChange(pagination.current - 1, pagination.pageSize);
     }
-  }, [query.data?.identityResources]);
+  }, [query.data?.scopes]);
 
   return {
     ...query,
@@ -46,10 +48,10 @@ const useGetAll = () => {
   };
 };
 
-const useGet = (data: TGet) => {
+const useGet = (data: { id: number }) => {
   const query = useQuery({
     queryKey: [apiData.get.url, { id: data.id }],
-    queryFn: (): Promise<TResponse<TGetResponse>> =>
+    queryFn: (): Promise<TResponse<TApiScopesGet>> =>
       customFetcher({
         url: apiData.get.url,
         data: data.id,
@@ -68,7 +70,7 @@ const useCreate = () => {
   const queryClient = useQueryClient();
 
   const query = useMutation({
-    mutationFn: (data: TCreate): Promise<TResponse<undefined>> =>
+    mutationFn: (data: TApiScopesCreateType): Promise<TResponse<undefined>> =>
       customFetcher({
         url: apiData.create.url,
         data,
@@ -89,7 +91,7 @@ const useUpdate = () => {
   const queryClient = useQueryClient();
 
   const query = useMutation({
-    mutationFn: (data: TUpdate): Promise<TResponse<undefined>> =>
+    mutationFn: (data: TApiScopesUpdateType): Promise<TResponse<undefined>> =>
       customFetcher({
         url: apiData.update.url,
         data,
@@ -110,7 +112,7 @@ const useDelete = () => {
   const queryClient = useQueryClient();
 
   const query = useMutation({
-    mutationFn: (data: TGet): Promise<TResponse<undefined>> =>
+    mutationFn: (data: { id: number }): Promise<TResponse<undefined>> =>
       customFetcher({
         url: apiData.delete.url,
         params: data,

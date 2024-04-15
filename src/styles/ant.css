@@ -69,6 +69,10 @@
   @apply mb-0 !important;
 }
 
+.ant-table-row:nth-child(even) {
+  @apply bg-gray-50 !important;
+}
+
 input {
   font-family: var(--font-family) !important;
 }
