@@ -6,7 +6,7 @@ import { IsApiService } from "./IsApiService";
 type Props = {
   url: string;
   axiosInstance?: AxiosInstance;
-  params?: Record<string, string | number>;
+  params?: object;
   data?: any;
   headers?: AxiosHeaders;
   method?: "GET" | "POST" | "PUT" | "DELETE" | string;
@@ -24,8 +24,6 @@ async function customFetcher(props: Props) {
   const BaseAxios = axiosInstance || baseAxios.axios;
 
   const finalUrl = baseAxios.getUrlWithParams(BaseAxios.getUri() + url, params);
-
-  console.log(url);
 
   let logEntry = {
     timestamp: new Date().toISOString(),

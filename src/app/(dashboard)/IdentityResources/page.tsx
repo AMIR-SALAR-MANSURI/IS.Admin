@@ -23,12 +23,6 @@ export default function Page() {
 
     const deleteRecord = useDelete()
 
-    useEffect(() => {
-        console.log(getAll.data);
-
-    }, [getAll.isFetching])
-
-
     const columns: TableProps<TGetAllResponse>['columns'] = [
         {
             title: 'عنوان',
@@ -115,7 +109,7 @@ export default function Page() {
                         title={ms.deleteConfirm.replace("value", record.displayName)}
                         icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                         open={deleteId == record.id}
-                        onConfirm={() => deleteRecord.mutateAsync({ id: record.id }).then(res => res.data.isSuccess && setDeleteId(undefined))}
+                        onConfirm={() => deleteRecord.mutateAsync({ id: record.id }).then(res => res?.isSuccess && setDeleteId(undefined))}
                         okButtonProps={{ loading: deleteRecord.isPending }}
                         onCancel={() => setDeleteId(undefined)}
                     >
@@ -162,7 +156,7 @@ export default function Page() {
                 title={() => <GetAllFilter onChange={(data) => getAll.setFilter(data)} />}
                 columns={columns}
                 pagination={getAll.pagination}
-                dataSource={getAll.data?.data.value?.identityResources || []}
+                dataSource={getAll.data?.identityResources || []}
                 loading={getAll.isFetching || getAll.isLoading}
                 scroll={{ x: 1500 }}
                 sticky={{ offsetHeader: 64 }}

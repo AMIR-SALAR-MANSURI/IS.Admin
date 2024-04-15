@@ -13,7 +13,9 @@ export default function usePagination(props?: Tprops) {
   const [pageSize, setPageSize] = useState(props?.pageSize || 5);
 
   const onChange = (page: number, pageSize: number) => {
-    setPage(page);
+    if (page > 0) {
+      setPage(page);
+    }
     setPageSize(pageSize);
   };
 

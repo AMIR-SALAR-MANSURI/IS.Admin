@@ -41,7 +41,6 @@ export default function GetAllFilter(props: TProps) {
                             required={false}
                             label="عنوان"
                             name="name"
-                            rules={[{ required: true, message: 'لطفا مقدار را وارد نمایید' }]}
                         >
                             <Input size='large' placeholder='وارد کنید' />
                         </Form.Item>

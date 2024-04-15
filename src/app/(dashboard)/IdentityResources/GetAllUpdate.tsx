@@ -6,6 +6,7 @@ import { useGet, useUpdate } from '@/hooks/IdentityResources'
 import { TUpdate } from '@/lib/IdentityResource'
 import { SaveIcon } from 'lucide-react'
 import { useForm } from 'antd/lib/form/Form'
+import { JsonView } from 'react-json-view-lite'
 
 interface TProps {
     open: string | number | undefined,
@@ -25,18 +26,22 @@ export default function GetAllUpdate(props: TProps) {
         const res = await update.mutateAsync({ ...data, id: props.open as number })
 
         if (res.isSuccess) {
+            form.resetFields()
             props.setOpen(undefined)
         }
 
     }
 
     useEffect(() => {
-
         console.log(get.data);
 
-        form.setFieldsValue(get.data)
+        if (get.data) {
+            console.log(get.data);
+            form.setFieldsValue(get?.data)
+        }
 
-    }, [get.data])
+
+    }, [get.data, props.open])
 
     return (
         <Modal
@@ -53,7 +58,7 @@ export default function GetAllUpdate(props: TProps) {
             title={`بروزرسانی ${ms.names.identityResource}`}
             width={800}
             open={props.open !== undefined}
-            onCancel={() => !!update.isPending && props.setOpen(undefined)}
+            onCancel={() => !update.isPending && props.setOpen(undefined)}
         >
             <Form
                 form={form}
