@@ -25,6 +25,8 @@ async function customFetcher(props: Props) {
 
   const finalUrl = baseAxios.getUrlWithParams(BaseAxios.getUri() + url, params);
 
+  console.log(url);
+
   let logEntry = {
     timestamp: new Date().toISOString(),
     method: method || "GET",

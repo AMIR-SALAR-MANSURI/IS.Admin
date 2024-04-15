@@ -32,6 +32,7 @@ export default function GetAllCreate() {
         console.log(res);
 
         if (res.data.isSuccess) {
+            form.resetFields()
             setIsModalOpen(false)
         }
 
@@ -48,6 +49,13 @@ export default function GetAllCreate() {
                 width={1000}
                 footer={() => <>
                     <Button
+                        disabled={create.isPending}
+                        loading={create.isPending}
+                        onClick={() => handleCancel()}
+                        size='large' type='default' icon={<X />}>
+                        انصراف
+                    </Button>
+                    <Button
                         size='large'
                         disabled={create.isPending}
                         loading={create.isPending}
@@ -55,12 +63,6 @@ export default function GetAllCreate() {
                         type='primary' icon={<Save />}
                     >
                         ذخیره
-                    </Button>
-                    <Button
-                        disabled={create.isPending}
-                        loading={create.isPending}
-                        size='large' type='default' icon={<X />}>
-                        انصراف
                     </Button>
                 </>}
                 onCancel={handleCancel}

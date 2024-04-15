@@ -16,7 +16,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     } = theme.useToken();
 
     return (
-        <Layout>
+        <Layout className='min-h-[100vh]'>
             <Header className='flex items-center justify-between'>
                 <div className='flex items-center flex-grow'>
                     <ListMinus width={50} className='ml-5 m-2 w-7 h-7' />

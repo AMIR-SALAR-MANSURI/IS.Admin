@@ -10,8 +10,8 @@ import usePagination from "./usePagination";
 import { useState } from "react";
 import apiData from "@/constants/api-resource";
 import customFetcher from "@/service/custome-fetcher";
-import { TPage, TPaginateResponse } from "@/types/responseType";
-import { TApiResourceGetAllList } from "@/types/ApiResource";
+import { TPage, TPaginateResponse, TResponse } from "@/types/responseType";
+import { TApiResourceGet, TApiResourceGetAllList } from "@/types/ApiResource";
 
 const apiService = new ApiResources();
 
@@ -27,9 +27,12 @@ const useGetAll = () => {
 
   const query = useQuery({
     queryKey: [apiData.getAll.url, { ...filter }, pageData],
-    queryFn: (): Promise<TPaginateResponse<TApiResourceGetAllList[]>> =>
+    queryFn: (): Promise<
+      TPaginateResponse<{ apiResources: TApiResourceGetAllList[] }>
+    > =>
       customFetcher({
-        url: apiData.getAll.method,
+        url: apiData.getAll.url,
+        method: apiData.getAll.method,
         data: { ...filter, ...pageData },
         ...filter,
       }),
@@ -49,9 +52,14 @@ const useGetAll = () => {
 const useGet = (data: TGet) => {
   const query = useQuery({
     queryKey: [apiData.get.url, data],
-    queryFn: () => apiService.get(data),
+    queryFn: (): Promise<TResponse<TApiResourceGet>> =>
+      customFetcher({
+        url: apiData.get.url,
+        method: apiData.get.method,
+        data: data.id,
+      }),
     select(data) {
-      return data.data.valueOrDefault;
+      return data.value;
     },
     enabled: data.id !== undefined,
   });

@@ -25,6 +25,7 @@ export default function GetAllUpdate(props: TProps) {
         const res = await update.mutateAsync({ ...data, id: props.open as number })
 
         if (res.data.isSuccess) {
+            form.resetFields()
             props.setOpen(undefined)
         }
 
@@ -36,7 +37,6 @@ export default function GetAllUpdate(props: TProps) {
 
         if (get.data) {
             console.log(get.data);
-
             form.setFieldsValue(get.data)
         }
 
@@ -57,7 +57,7 @@ export default function GetAllUpdate(props: TProps) {
             title={`بروزرسانی ${ms.names.identityResource}`}
             width={800}
             open={props.open !== undefined}
-            onCancel={() => !!update.isPending && props.setOpen(undefined)}
+            onCancel={() => !update.isPending && props.setOpen(undefined)}
         >
             <Form
                 form={form}
