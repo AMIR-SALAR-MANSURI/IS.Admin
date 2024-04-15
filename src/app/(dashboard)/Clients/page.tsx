@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useDelete, useGetAll } from "@/hooks/ApiResources";
-import { TGetAllResponse } from "@/lib/IdentityResource";
+import { useDelete, useGetAll } from "@/hooks/Clinets";
 import {
   Breadcrumb,
   Button,
@@ -19,6 +18,7 @@ import { Edit, Trash } from "lucide-react";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import ms from "@/constants/error-ms";
 import GetAllUpdate from "./GetAllUpdate";
+import { TApiClientsGetAllList, TApiClientsGetAllType } from "@/types/Clients";
 
 export default function Page() {
   const [deleteId, setDeleteId] = useState<number>();
@@ -26,68 +26,67 @@ export default function Page() {
   const [updateId, setUpdateId] = useState<string | number | undefined>();
 
   const getAll = useGetAll();
-
   const deleteRecord = useDelete();
 
-  const columns: TableProps<TGetAllResponse>["columns"] = [
+  const columns: TableProps<TApiClientsGetAllList | any>["columns"] = [
     {
-      title: "عنوان",
-      dataIndex: "name",
-      key: "name",
+      title: "clientName",
+      dataIndex: "clientName",
+      key: "clientName",
     },
     {
-      title: "نام نمایشی",
-      dataIndex: "displayName",
-      key: "displayName",
+      title: "clientClaimsPrefix",
+      dataIndex: "clientClaimsPrefix",
+      key: "clientClaimsPrefix",
     },
-    {
-      title: "وضعیت",
-      dataIndex: "enabled",
-      key: "enabled",
-      render(value, record, index) {
-        return (
-          <Tag color={value ? "green" : "red"}>
-            {value ? "فعال" : "غیر فعال"}
-          </Tag>
-        );
-      },
-    },
-    {
-      title: "emphasize",
-      dataIndex: "emphasize",
-      key: "emphasize",
-      render(value, record, index) {
-        return (
-          <Tag color={value ? "blue-inverse" : "red-inverse"}>
-            {value ? "فعال" : "غیر فعال"}
-          </Tag>
-        );
-      },
-    },
-    {
-      title: "showInDiscoveryDocument",
-      dataIndex: "showInDiscoveryDocument",
-      key: "showInDiscoveryDocument",
-      render(value, record, index) {
-        return (
-          <Tag color={value ? "geekblue-inverse" : "magenta-inverse"}>
-            {value ? "فعال" : "غیر فعال"}
-          </Tag>
-        );
-      },
-    },
-    {
-      title: "اجباری",
-      dataIndex: "required",
-      key: "required",
-      render(value, record, index) {
-        return (
-          <Tag color={value ? "geekblue" : "magenta"}>
-            {value ? "فعال" : "غیر فعال"}
-          </Tag>
-        );
-      },
-    },
+    // {
+    //   title: "وضعیت",
+    //   dataIndex: "enabled",
+    //   key: "enabled",
+    //   render(value, record, index) {
+    //     return (
+    //       <Tag color={value ? "green" : "red"}>
+    //         {value ? "فعال" : "غیر فعال"}
+    //       </Tag>
+    //     );
+    //   },
+    // },
+    // {
+    //   title: "emphasize",
+    //   dataIndex: "emphasize",
+    //   key: "emphasize",
+    //   render(value, record, index) {
+    //     return (
+    //       <Tag color={value ? "blue-inverse" : "red-inverse"}>
+    //         {value ? "فعال" : "غیر فعال"}
+    //       </Tag>
+    //     );
+    //   },
+    // },
+    // {
+    //   title: "showInDiscoveryDocument",
+    //   dataIndex: "showInDiscoveryDocument",
+    //   key: "showInDiscoveryDocument",
+    //   render(value, record, index) {
+    //     return (
+    //       <Tag color={value ? "geekblue-inverse" : "magenta-inverse"}>
+    //         {value ? "فعال" : "غیر فعال"}
+    //       </Tag>
+    //     );
+    //   },
+    // },
+    // {
+    //   title: "اجباری",
+    //   dataIndex: "required",
+    //   key: "required",
+    //   render(value, record, index) {
+    //     return (
+    //       <Tag color={value ? "geekblue" : "magenta"}>
+    //         {value ? "فعال" : "غیر فعال"}
+    //       </Tag>
+    //     );
+    //   },
+    // },
     // {
     //     title: 'Tags',
     //     key: 'tags',
@@ -117,13 +116,13 @@ export default function Page() {
         return (
           <div className="flex justify-center gap-2 items-center">
             <Popconfirm
-              title={ms.deleteConfirm.replace("value", record.displayName)}
+              title={ms.deleteConfirm.replace("value", record.clientName)}
               icon={<QuestionCircleOutlined style={{ color: "red" }} />}
               open={deleteId == record.id}
               onConfirm={() =>
                 deleteRecord
                   .mutateAsync({ id: record.id })
-                  .then((res) => res.data.isSuccess && setDeleteId(undefined))
+                  .then((res) => res.isSuccess && setDeleteId(undefined))
               }
               okButtonProps={{ loading: deleteRecord.isPending }}
               onCancel={() => setDeleteId(undefined)}
@@ -152,7 +151,7 @@ export default function Page() {
             },
             {
               path: "/IdentityResources",
-              title: ms.names.apiResources,
+              title: ms.names.Clients,
             },
           ]}
         />
@@ -161,7 +160,7 @@ export default function Page() {
       <Divider className="m-0" />
       <div className="flex justify-between px-5 pt-5 max-sm:px-3 max-sm:pt-3">
         <Typography.Title className="text-3xl max-sm:text-lg">
-          {ms.names.apiResources}
+          {ms.names.Clients}
         </Typography.Title>
         <GetAllCreate />
       </div>
@@ -173,12 +172,12 @@ export default function Page() {
         )}
         columns={columns}
         pagination={getAll.pagination}
-        dataSource={getAll.data?.apiResources || []}
+        dataSource={getAll.data?.clients || []}
         loading={getAll.isFetching || getAll.isLoading}
         scroll={{ x: 1500 }}
         sticky={{ offsetHeader: 64 }}
       />
-      <GetAllUpdate open={updateId} setOpen={setUpdateId} />
+      {/* <GetAllUpdate open={updateId} setOpen={setUpdateId} /> */}
     </>
   );
 }
